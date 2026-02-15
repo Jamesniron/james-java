@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Container, TextField, Button, Typography, MenuItem, Box, Alert, CircularProgress, Paper, Grid } from '@mui/material';
+import { Container, TextField, Button, Typography, MenuItem, Box, Alert, CircularProgress, Paper, Grid, InputAdornment } from '@mui/material';
+import { Person, Phone, Home, Hotel, CalendarToday, DateRange } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -72,6 +73,7 @@ const AddReservation = () => {
 
                 <Box component="form" onSubmit={formik.handleSubmit}>
                     <Grid container spacing={3}>
+
                         <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
@@ -82,6 +84,14 @@ const AddReservation = () => {
                                 error={formik.touched.guestName && Boolean(formik.errors.guestName)}
                                 helperText={formik.touched.guestName && formik.errors.guestName}
                                 sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Person sx={{ color: 'var(--text-muted)' }} />
+                                        </InputAdornment>
+                                    ),
+                                }}
+
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -94,6 +104,14 @@ const AddReservation = () => {
                                 error={formik.touched.contactNumber && Boolean(formik.errors.contactNumber)}
                                 helperText={formik.touched.contactNumber && formik.errors.contactNumber}
                                 sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Phone sx={{ color: 'var(--text-muted)' }} />
+                                        </InputAdornment>
+                                    ),
+                                }}
+
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -108,6 +126,14 @@ const AddReservation = () => {
                                 error={formik.touched.address && Boolean(formik.errors.address)}
                                 helperText={formik.touched.address && formik.errors.address}
                                 sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Home sx={{ color: 'var(--text-muted)', mt: 1 }} />
+                                        </InputAdornment>
+                                    ),
+                                }}
+
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -121,6 +147,13 @@ const AddReservation = () => {
                                 error={formik.touched.roomId && Boolean(formik.errors.roomId)}
                                 helperText={formik.touched.roomId && formik.errors.roomId}
                                 sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Hotel sx={{ color: 'var(--text-muted)' }} />
+                                        </InputAdornment>
+                                    ),
+                                }}
                             >
                                 {rooms.map((room) => (
                                     <MenuItem key={room.id} value={room.id}>
@@ -141,6 +174,13 @@ const AddReservation = () => {
                                 error={formik.touched.checkIn && Boolean(formik.errors.checkIn)}
                                 helperText={formik.touched.checkIn && formik.errors.checkIn}
                                 sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <CalendarToday sx={{ color: 'var(--text-muted)' }} />
+                                        </InputAdornment>
+                                    ),
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -155,6 +195,13 @@ const AddReservation = () => {
                                 error={formik.touched.checkOut && Boolean(formik.errors.checkOut)}
                                 helperText={formik.touched.checkOut && formik.errors.checkOut}
                                 sx={{ '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <DateRange sx={{ color: 'var(--text-muted)' }} />
+                                        </InputAdornment>
+                                    ),
+                                }}
                             />
                         </Grid>
                     </Grid>

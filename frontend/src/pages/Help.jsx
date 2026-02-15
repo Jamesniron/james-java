@@ -1,15 +1,34 @@
-import { Container, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, Box } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import HelpCenterIcon from '@mui/icons-material/HelpCenter';
+import { useState, useEffect } from 'react';
+import { Container, Typography, Paper, Accordion, AccordionSummary, AccordionDetails, Box, Chip } from '@mui/material';
+import { ExpandMore, HelpCenter, AdminPanelSettings, Badge } from '@mui/icons-material';
 
 const Help = () => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
     return (
         <Container maxWidth="md" sx={{ mt: 10, pb: 8 }} className="fade-in">
             <Box sx={{ textAlign: 'center', mb: 6 }}>
-                <HelpCenterIcon sx={{ fontSize: 60, color: 'var(--primary)', mb: 2 }} />
+                <HelpCenter sx={{ fontSize: 60, color: 'var(--primary)', mb: 2 }} />
                 <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>
                     How can we help?
                 </Typography>
+                {user && (
+                    <Box sx={{ mb: 2 }}>
+                        <Chip
+                            icon={user.role === 'ADMIN' ? <AdminPanelSettings /> : <Badge />}
+                            label={`Logged in as ${user.role}`}
+                            variant="outlined"
+                            sx={{ color: 'var(--text-muted)' }}
+                        />
+                    </Box>
+                )}
                 <Typography variant="body1" sx={{ color: 'var(--text-muted)' }}>
                     Everything you need to know about the Ocean View Resort System.
                 </Typography>
@@ -17,7 +36,7 @@ const Help = () => {
 
             <Paper className="glass-panel" sx={{ p: 2, background: 'var(--glass-bg)' }}>
                 <Accordion sx={{ background: 'transparent', boxShadow: 'none', '&:before': { display: 'none' } }}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'var(--primary)' }} />}>
+                    <AccordionSummary expandIcon={<ExpandMore sx={{ color: 'var(--primary)' }} />}>
                         <Typography variant="h6" sx={{ fontWeight: 600 }}>Secure Login Process</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -30,7 +49,7 @@ const Help = () => {
                 </Accordion>
 
                 <Accordion sx={{ background: 'transparent', boxShadow: 'none', '&:before': { display: 'none' } }}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'var(--primary)' }} />}>
+                    <AccordionSummary expandIcon={<ExpandMore sx={{ color: 'var(--primary)' }} />}>
                         <Typography variant="h6" sx={{ fontWeight: 600 }}>Guest Reservation Workflow</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -44,7 +63,7 @@ const Help = () => {
                 </Accordion>
 
                 <Accordion sx={{ background: 'transparent', boxShadow: 'none', '&:before': { display: 'none' } }}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'var(--primary)' }} />}>
+                    <AccordionSummary expandIcon={<ExpandMore sx={{ color: 'var(--primary)' }} />}>
                         <Typography variant="h6" sx={{ fontWeight: 600 }}>Billing & Invoicing</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -56,7 +75,7 @@ const Help = () => {
                 </Accordion>
 
                 <Accordion sx={{ background: 'transparent', boxShadow: 'none', '&:before': { display: 'none' } }}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'var(--primary)' }} />}>
+                    <AccordionSummary expandIcon={<ExpandMore sx={{ color: 'var(--primary)' }} />}>
                         <Typography variant="h6" sx={{ fontWeight: 600 }}>Technical Support</Typography>
                     </AccordionSummary>
                     <AccordionDetails>

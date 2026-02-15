@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Container, TextField, Button, Typography, Box, Alert, CircularProgress, Paper } from '@mui/material';
+import { Container, TextField, Button, Typography, Box, Alert, CircularProgress, Paper, Tooltip, IconButton } from '@mui/material';
+import { AdminPanelSettings, Badge } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setUser }) => {
+    // ... existing hook logic ... 
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -32,12 +34,34 @@ const Login = ({ setUser }) => {
                     setError(response.data.message || 'Login failed');
                 }
             } catch (err) {
-                setError(err.response?.data?.message || 'Login failed. Please check backend.');
+                console.error('Login Error:', err);
+                const status = err.response?.status;
+                const message = err.response?.data?.message;
+
+                if (status === 401) {
+                    setError('Invalid Username or Password');
+                } else if (status === 404) {
+                    setError('Login service not found (404). Check backend URL.');
+                } else if (status >= 500) {
+                    setError('Server error. Please try again later.');
+                } else if (!status) {
+                    setError('Network Error: Unable to reach backend. Ensure server is running.');
+                } else {
+                    setError(message || 'Login failed. Please try again.');
+                }
             } finally {
                 setLoading(false);
             }
         },
     });
+
+    const fillCredentials = (role) => {
+        if (role === 'admin') {
+            formik.setValues({ username: 'admin', password: 'password' });
+        } else {
+            formik.setValues({ username: 'staff', password: 'staff123' });
+        }
+    };
 
     return (
         <Box sx={{
@@ -56,9 +80,36 @@ const Login = ({ setUser }) => {
                     >
                         OCEAN VIEW
                     </Typography>
-                    <Typography variant="body1" sx={{ color: 'var(--text-muted)', mb: 4, fontWeight: 500 }}>
+                    <Typography variant="body1" sx={{ color: 'var(--text-muted)', mb: 2, fontWeight: 500 }}>
                         Management Portal
                     </Typography>
+
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 4 }}>
+                        <Tooltip title="Login as Admin">
+                            <IconButton
+                                onClick={() => fillCredentials('admin')}
+                                sx={{
+                                    border: '1px solid rgba(244, 143, 177, 0.3)',
+                                    background: 'rgba(244, 143, 177, 0.1)',
+                                    '&:hover': { background: 'rgba(244, 143, 177, 0.2)' }
+                                }}
+                            >
+                                <AdminPanelSettings sx={{ color: '#f48fb1' }} />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Login as Staff">
+                            <IconButton
+                                onClick={() => fillCredentials('staff')}
+                                sx={{
+                                    border: '1px solid rgba(144, 202, 249, 0.3)',
+                                    background: 'rgba(144, 202, 249, 0.1)',
+                                    '&:hover': { background: 'rgba(144, 202, 249, 0.2)' }
+                                }}
+                            >
+                                <Badge sx={{ color: '#90caf9' }} />
+                            </IconButton>
+                        </Tooltip>
+                    </Box>
 
                     <Box component="form" onSubmit={formik.handleSubmit}>
                         {error && <Alert severity="error" sx={{ mb: 3, borderRadius: '12px', background: 'rgba(244, 63, 94, 0.1)', color: '#fb7185' }}>{error}</Alert>}

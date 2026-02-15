@@ -1,15 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Container, Typography, TextField, Grid, Card, CardContent, CardActions, IconButton, Button, Box, InputAdornment } from '@mui/material';
-import { Add as AddIcon, Search as SearchIcon, Visibility as ViewIcon, Print as PrintIcon } from '@mui/icons-material';
+import { Container, Typography, TextField, Grid, Card, CardContent, CardActions, IconButton, Button, Box, InputAdornment, Chip } from '@mui/material';
+import { Add as AddIcon, Search as SearchIcon, Visibility as ViewIcon, Print as PrintIcon, AdminPanelSettings, Badge } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Dashboard = () => {
     const [reservations, setReservations] = useState([]);
     const [search, setSearch] = useState('');
+    const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
         fetchReservations();
     }, []);
 
@@ -31,11 +36,29 @@ const Dashboard = () => {
         <Container maxWidth="xl" sx={{ mt: 8, pb: 8 }} className="fade-in">
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
                 <Box>
-                    <Typography variant="h3" sx={{ mb: 1, fontWeight: 800 }}>
-                        Reservations
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
+                        <Typography variant="h3" sx={{ fontWeight: 800 }}>
+                            Dashboard
+                        </Typography>
+                        {user && (
+                            <Chip
+                                icon={user.role === 'ADMIN' ? <AdminPanelSettings /> : <Badge />}
+                                label={user.role}
+                                sx={{
+                                    background: user.role === 'ADMIN'
+                                        ? 'linear-gradient(45deg, #f06292 30%, #f48fb1 90%)'
+                                        : 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+                                    color: 'white',
+                                    fontWeight: 'bold',
+                                    height: '32px',
+                                    px: 1,
+                                    boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)'
+                                }}
+                            />
+                        )}
+                    </Box>
                     <Typography variant="body1" sx={{ color: 'var(--text-muted)' }}>
-                        Manage and track all guest bookings
+                        Manage and track all guest bookings | Welcome back, {user ? user.username : 'User'}
                     </Typography>
                 </Box>
                 <Button

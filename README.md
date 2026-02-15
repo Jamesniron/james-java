@@ -22,7 +22,7 @@ A complete full-stack web application for Ocean View Resort (Galle) to manage re
    source backend/database/schema.sql;
    ```
 3. Update database credentials if necessary in `backend/src/main/java/com/oceanview/util/DBUtil.java`.
-   - Default: `root` / (empty password)
+   - Default: `root` / `12345678`
 
 ### 2. Backend Setup
 1. Navigate to the `backend` directory:
@@ -66,4 +66,4 @@ A complete full-stack web application for Ocean View Resort (Galle) to manage re
 
 ## Default Users
 - **Admin:** `admin` / `password`
-- **Staff:** `staff` / `password`
+- **Staff:** `staff` / `staff123`

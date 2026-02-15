@@ -2,6 +2,7 @@ com\oceanview\dao\ReservationDAO.class
 com\oceanview\servlet\CorsFilter.class
 com\oceanview\servlet\BillingServlet.class
 com\oceanview\util\DBUtil.class
+com\oceanview\util\HashGenerator.class
 com\oceanview\servlet\ReservationServlet$4.class
 com\oceanview\servlet\RoomServlet.class
 com\oceanview\model\Reservation$Status.class

@@ -1,7 +1,5 @@
--- Database for Ocean View Resort
-CREATE DATABASE IF NOT EXISTS ocean_view_resort;
-
-USE ocean_view_resort;
+-- Active: 1770811534415@@127.0.0.1@3306@mysql
+-- Database Schema for MySQL
 
 -- Users Table
 CREATE TABLE IF NOT EXISTS users (
@@ -48,7 +46,7 @@ CREATE TABLE IF NOT EXISTS reservations (
     FOREIGN KEY (room_id) REFERENCES rooms (id)
 );
 
--- Payments Table (Optional, linked to Reservation)
+-- Payments Table
 CREATE TABLE IF NOT EXISTS payments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     reservation_id INT NOT NULL,
@@ -58,23 +56,28 @@ CREATE TABLE IF NOT EXISTS payments (
     FOREIGN KEY (reservation_id) REFERENCES reservations (id)
 );
 
--- Insert Dummy Data for users
+-- Insert Initial Users
 INSERT IGNORE INTO
-    users (username, password_hash, role)
+    users (
+        id,
+        username,
+        password_hash,
+        role
+    )
 VALUES (
+        1,
         'admin',
         '$2a$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW',
         'ADMIN'
-    ), -- password: 'password'
+    ),
     (
+        2,
         'staff',
         '$2a$12$N9qo8uLOickgx2ZMRZoMyeIjZAgdtix7HE8n.shnV767T1L.A6SBy',
         'STAFF'
     );
--- password: 'staff123'
 
--- Insert Dummy Data for rooms
--- Prices (Assumption): Single=100, Double=150, Deluxe=200, Suite=300
+-- Insert Initial Rooms
 INSERT IGNORE INTO
     rooms (
         room_number,

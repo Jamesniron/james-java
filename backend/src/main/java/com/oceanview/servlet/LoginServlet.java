@@ -15,13 +15,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/login")
 public class LoginServlet extends HttpServlet {
+
     private final UserDAO userDAO = new UserDAO();
     private final Gson gson = new Gson();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
-        
+
         LoginRequest loginRequest = null;
         try {
             loginRequest = gson.fromJson(req.getReader(), LoginRequest.class);
@@ -36,38 +37,38 @@ public class LoginServlet extends HttpServlet {
             resp.getWriter().write(gson.toJson(ApiResponse.error("Invalid request parameters")));
             return;
         }
-        
+
         final LoginRequest request = loginRequest;
 
-        userDAO.findByUsername(request.username).ifPresentOrElse(user -> {
-            if (PasswordUtil.verifyPassword(request.password, user.getPasswordHash())) {
-                req.getSession().setAttribute("user", user);
-                resp.setStatus(200);
-                try {
+        try {
+            System.out.println("Login attempt for user: " + request.username);
+            var userOptional = userDAO.findByUsername(request.username);
+
+            if (userOptional.isPresent()) {
+                var user = userOptional.get();
+                if (PasswordUtil.verifyPassword(request.password, user.getPasswordHash())) {
+                    req.getSession().setAttribute("user", user);
+                    resp.setStatus(200);
                     resp.getWriter().write(gson.toJson(ApiResponse.success("Login successful", user)));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } else {
+                    resp.setStatus(401);
+                    resp.getWriter().write(gson.toJson(ApiResponse.error("Invalid credentials")));
                 }
             } else {
                 resp.setStatus(401);
-                try {
-                    resp.getWriter().write(gson.toJson(ApiResponse.error("Invalid credentials")));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                resp.getWriter().write(gson.toJson(ApiResponse.error("User not found")));
             }
-        }, () -> {
-            resp.setStatus(401);
-            try {
-                resp.getWriter().write(gson.toJson(ApiResponse.error("Invalid credentials")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("LoginServlet Error: " + e.getMessage());
+            resp.setStatus(500);
+            resp.getWriter().write(gson.toJson(ApiResponse.error("Server Error: " + e.getMessage())));
+        }
     }
 
-    private static class LoginRequest {
-        String username;
-        String password;
+    public static class LoginRequest {
+
+        public String username;
+        public String password;
     }
 }
