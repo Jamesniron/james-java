@@ -17,7 +17,7 @@ public class DatabaseInitializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("Initializing Database (H2)...");
+        System.out.println("Initializing Database (MySQL)...");
 
         // Assume running from project root (backend folder) mechanism for dev
         Path schemaPath = Paths.get("database/schema.sql");
@@ -32,8 +32,6 @@ public class DatabaseInitializer implements ServletContextListener {
         try (Connection conn = DBUtil.getConnection(); Statement stmt = conn.createStatement()) {
 
             String sql = Files.readString(schemaPath);
-
-            // H2 can process multiple statements in one execute call
             stmt.execute(sql);
             System.out.println("Database schema executed successfully!");
 

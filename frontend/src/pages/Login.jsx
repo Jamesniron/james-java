@@ -27,9 +27,14 @@ const Login = ({ setUser }) => {
             try {
                 const response = await axios.post('/api/login', values);
                 if (response.data.success) {
-                    localStorage.setItem('user', JSON.stringify(response.data.data));
-                    setUser(response.data.data);
-                    navigate('/dashboard');
+                    const userData = response.data.data;
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    setUser(userData);
+                    if (userData.role === 'ADMIN') {
+                        navigate('/admin');
+                    } else {
+                        navigate('/dashboard');
+                    }
                 } else {
                     setError(response.data.message || 'Login failed');
                 }

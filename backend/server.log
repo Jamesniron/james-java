@@ -1,0 +1,53 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.oceanview:oceanview-resort >-------------------
+[INFO] Building oceanview-resort 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ oceanview-resort ---
+[INFO] Deleting c:\Users\User\Desktop\james java\backend\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ oceanview-resort ---
+[INFO] skip non existing resourceDirectory c:\Users\User\Desktop\james java\backend\src\main\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ oceanview-resort ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 25 source files with javac [debug target 17] to target\classes
+[WARNING] system modules path not set in conjunction with -source 17
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ oceanview-resort ---
+[INFO] skip non existing resourceDirectory c:\Users\User\Desktop\james java\backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ oceanview-resort ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ oceanview-resort ---
+[INFO] 
+[INFO] --- war:3.4.0:war (default-war) @ oceanview-resort ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [oceanview-resort] in [c:\Users\User\Desktop\james java\backend\target\oceanview]
+[INFO] Processing war project
+[INFO] Copying webapp resources [c:\Users\User\Desktop\james java\backend\src\main\webapp]
+[INFO] Building war: c:\Users\User\Desktop\james java\backend\target\oceanview.war
+[INFO] 
+[INFO] --- cargo:1.10.9:run (default-cli) @ oceanview-resort ---
+[INFO] [en3.ContainerRunMojo] Resolved container artifact org.codehaus.cargo:cargo-core-container-tomcat:jar:1.10.9 for container tomcat10x
+[INFO] [beddedLocalContainer] Tomcat 10.x Embedded starting...
+Feb 15, 2026 11:03:25 PM org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-nio-8102"]
+Feb 15, 2026 11:03:25 PM org.apache.catalina.core.StandardService startInternal
+INFO: Starting service [Tomcat]
+Feb 15, 2026 11:03:25 PM org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet engine: [Apache Tomcat/10.1.11]
+Feb 15, 2026 11:03:25 PM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-8102"]
+Feb 15, 2026 11:03:26 PM org.apache.catalina.startup.ContextConfig getDefaultWebXmlFragment
+INFO: No global web.xml found
+Feb 15, 2026 11:03:27 PM org.apache.jasper.servlet.TldScanner scanJars
+INFO: At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+Initializing Database (H2)...
+Database schema executed successfully!
+[INFO] [beddedLocalContainer] Tomcat 10.x Embedded started on port [8102]
+[INFO] Press Ctrl-C to stop the container...
+Login attempt for user: admin

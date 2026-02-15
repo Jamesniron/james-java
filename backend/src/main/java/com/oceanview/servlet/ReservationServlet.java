@@ -43,7 +43,9 @@ public class ReservationServlet extends HttpServlet {
                 }
                 return;
             } catch (NumberFormatException e) {
-                // Ignore and fall back to fetching all
+                resp.setStatus(400);
+                resp.getWriter().write(gson.toJson(ApiResponse.error("Invalid Reservation ID")));
+                return;
             }
         }
 
@@ -53,6 +55,12 @@ public class ReservationServlet extends HttpServlet {
 
     private void processReservation(Reservation reservation, HttpServletResponse resp, boolean isUpdate) throws IOException {
         Gson gson = com.oceanview.util.GsonUtil.getGson();
+
+        if (reservation == null) {
+            resp.setStatus(400);
+            resp.getWriter().write(gson.toJson(ApiResponse.error("Invalid Request Body")));
+            return;
+        }
 
         // Validate dates
         if (reservation.getCheckIn() == null || reservation.getCheckOut() == null) {
@@ -148,6 +156,22 @@ public class ReservationServlet extends HttpServlet {
 
         try {
             Reservation reservation = gson.fromJson(req.getReader(), Reservation.class);
+
+            // Check if ID is in path
+            String pathInfo = req.getPathInfo();
+            if (pathInfo != null && !pathInfo.equals("/")) {
+                try {
+                    int id = Integer.parseInt(pathInfo.substring(1));
+                    if (reservation != null) {
+                        reservation.setId(id);
+                    }
+                } catch (NumberFormatException e) {
+                    resp.setStatus(400);
+                    resp.getWriter().write(gson.toJson(ApiResponse.error("Invalid Reservation ID in URL")));
+                    return;
+                }
+            }
+
             processReservation(reservation, resp, true);
         } catch (com.google.gson.JsonSyntaxException | java.io.IOException e) {
             resp.setStatus(400);

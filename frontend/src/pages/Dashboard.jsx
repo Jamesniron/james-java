@@ -16,9 +16,15 @@ const Dashboard = () => {
     const fetchReservations = async () => {
         try {
             const response = await axios.get('/api/reservations');
-            setReservations(response.data.data);
+            if (response.data && response.data.success && Array.isArray(response.data.data)) {
+                setReservations(response.data.data);
+            } else {
+                setReservations([]);
+                console.warn('Received invalid data format:', response.data);
+            }
         } catch (error) {
             console.error('Failed to fetch reservations', error);
+            setReservations([]);
         }
     };
 

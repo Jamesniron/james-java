@@ -64,6 +64,43 @@ const Navbar = () => {
                         >
                             Help
                         </Button>
+
+                        {(() => {
+                            try {
+                                const userStr = localStorage.getItem('user');
+                                const user = userStr ? JSON.parse(userStr) : null;
+                                return user ? (
+                                    <Box sx={{ display: 'flex', alignItems: 'center', ml: 2, gap: 1 }}>
+                                        <Chip
+                                            avatar={<Avatar sx={{ bgcolor: 'primary.main' }}>{user.username ? user.username.charAt(0).toUpperCase() : 'U'}</Avatar>}
+                                            label={user.username || 'User'}
+                                            variant="outlined"
+                                            sx={{ color: 'white' }}
+                                        />
+                                        <Button
+                                            color="error"
+                                            onClick={async () => {
+                                                try {
+                                                    await axios.post('/api/logout');
+                                                    localStorage.removeItem('user');
+                                                    window.location.href = '/login';
+                                                } catch (err) {
+                                                    console.error('Logout failed', err);
+                                                    localStorage.removeItem('user');
+                                                    window.location.href = '/login';
+                                                }
+                                            }}
+                                            startIcon={<Logout />}
+                                            sx={{ fontWeight: 500, ml: 1 }}
+                                        >
+                                            Logout
+                                        </Button>
+                                    </Box>
+                                ) : null;
+                            } catch (e) {
+                                return null;
+                            }
+                        })()}
                     </Box>
                 </Toolbar>
             </Container>

@@ -56,6 +56,17 @@ CREATE TABLE IF NOT EXISTS payments (
     FOREIGN KEY (reservation_id) REFERENCES reservations (id)
 );
 
+-- Audit Logs Table
+CREATE TABLE IF NOT EXISTS audit_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    username VARCHAR(50),
+    action VARCHAR(50) NOT NULL,
+    details TEXT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL
+);
+
 -- Insert Initial Users
 INSERT IGNORE INTO
     users (
