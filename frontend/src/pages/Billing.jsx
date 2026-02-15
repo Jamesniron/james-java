@@ -95,7 +95,7 @@ const Billing = () => {
                             </Typography>
                         </Box>
                         <Typography sx={{ width: 100, textAlign: 'right' }}>{bill.totalNights}</Typography>
-                        <Typography sx={{ width: 120, textAlign: 'right' }}>${bill.totalAmount}</Typography>
+                        <Typography sx={{ width: 120, textAlign: 'right' }}>Rs. {bill.totalAmount.toLocaleString()}</Typography>
                     </Box>
                 </Box>
 
@@ -103,7 +103,7 @@ const Billing = () => {
                     <Box sx={{ width: 250 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                             <Typography>Subtotal:</Typography>
-                            <Typography>${bill.totalAmount}</Typography>
+                            <Typography>Rs. {bill.totalAmount.toLocaleString()}</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                             <Typography>Service Tax (Included):</Typography>
@@ -112,7 +112,7 @@ const Billing = () => {
                         <Divider sx={{ my: 2 }} />
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Typography variant="h5" sx={{ fontWeight: 800 }}>Total Due:</Typography>
-                            <Typography variant="h5" sx={{ fontWeight: 800 }}>${bill.totalAmount}</Typography>
+                            <Typography variant="h5" sx={{ fontWeight: 800 }}>Rs. {bill.totalAmount.toLocaleString()}</Typography>
                         </Box>
                     </Box>
                 </Box>

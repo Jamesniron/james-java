@@ -27,55 +27,21 @@ const darkTheme = createTheme({
 });
 
 function App() {
-    const [user, setUser] = useState(() => {
-        const storedUser = localStorage.getItem('user');
-        return storedUser ? JSON.parse(storedUser) : null;
-    });
-
-    useEffect(() => {
-        // Optional: validate token with backend here if needed
-    }, []);
-
-    const ProtectedRoute = ({ children }) => {
-        if (!user) {
-            return <Navigate to="/login" replace />;
-        }
-        return children;
-    };
-
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <Router>
-                {user && <Navbar user={user} setUser={setUser} />}
+                <Navbar />
                 <Routes>
-                    <Route path="/login" element={<Login setUser={setUser} />} />
-                    <Route path="/" element={<Navigate to={user ? "/dashboard" : "/login"} />} />
-                    <Route path="/dashboard" element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    } />
-                    <Route path="/reservations/add" element={
-                        <ProtectedRoute>
-                            <AddReservation />
-                        </ProtectedRoute>
-                    } />
-                    <Route path="/reservations/:id" element={
-                        <ProtectedRoute>
-                            <ReservationDetails />
-                        </ProtectedRoute>
-                    } />
-                    <Route path="/billing/:id" element={
-                        <ProtectedRoute>
-                            <Billing />
-                        </ProtectedRoute>
-                    } />
-                    <Route path="/help" element={
-                        <ProtectedRoute>
-                            <Help />
-                        </ProtectedRoute>
-                    } />
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/reservations/add" element={<AddReservation />} />
+                    <Route path="/reservations/edit/:id" element={<AddReservation />} />
+                    <Route path="/reservations/:id" element={<ReservationDetails />} />
+                    <Route path="/billing" element={<Dashboard />} />
+                    <Route path="/billing/:id" element={<Billing />} />
+                    <Route path="/help" element={<Help />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Router>
         </ThemeProvider>

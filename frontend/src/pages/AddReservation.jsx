@@ -4,17 +4,22 @@ import * as Yup from 'yup';
 import { Container, TextField, Button, Typography, MenuItem, Box, Alert, CircularProgress, Paper, Grid, InputAdornment } from '@mui/material';
 import { Person, Phone, Home, Hotel, CalendarToday, DateRange } from '@mui/icons-material';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddReservation = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
+    const isEdit = Boolean(id);
     const [rooms, setRooms] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
     useEffect(() => {
         fetchRooms();
-    }, []);
+        if (isEdit) {
+            fetchReservation();
+        }
+    }, [id]);
 
     const fetchRooms = async () => {
         try {
@@ -22,6 +27,26 @@ const AddReservation = () => {
             setRooms(response.data.data);
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const fetchReservation = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`/api/reservations/${id}`);
+            const data = response.data.data;
+            formik.setValues({
+                guestName: data.guestName,
+                address: data.address,
+                contactNumber: data.contactNumber,
+                roomId: data.roomId,
+                checkIn: data.checkIn,
+                checkOut: data.checkOut,
+            });
+        } catch (err) {
+            setError('Failed to fetch reservation details');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -49,10 +74,16 @@ const AddReservation = () => {
             setLoading(true);
             setError('');
             try {
-                await axios.post('/api/reservations', values);
+                if (isEdit) {
+                    await axios.put(`/api/reservations`, { ...values, id: parseInt(id) });
+                    alert('Reservation updated successfully');
+                } else {
+                    await axios.post('/api/reservations', values);
+                    alert('Reservation created successfully');
+                }
                 navigate('/dashboard');
             } catch (err) {
-                setError(err.response?.data?.message || 'Failed to create reservation');
+                setError(err.response?.data?.message || `Failed to ${isEdit ? 'update' : 'create'} reservation`);
             } finally {
                 setLoading(false);
             }
@@ -63,10 +94,10 @@ const AddReservation = () => {
         <Container maxWidth="md" sx={{ mt: 10, pb: 8 }} className="fade-in">
             <Paper className="glass-panel" sx={{ p: { xs: 3, md: 6 } }}>
                 <Typography variant="h3" sx={{ mb: 1, fontWeight: 800 }}>
-                    New Booking
+                    {isEdit ? 'Edit Reservation' : 'New Booking'}
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'var(--text-muted)', mb: 5 }}>
-                    Enter guest details and room preferences below.
+                    {isEdit ? `Modifying booking #${id}` : 'Enter guest details and room preferences below.'}
                 </Typography>
 
                 {error && <Alert severity="error" sx={{ mb: 4, borderRadius: '12px' }}>{error}</Alert>}
@@ -157,7 +188,7 @@ const AddReservation = () => {
                             >
                                 {rooms.map((room) => (
                                     <MenuItem key={room.id} value={room.id}>
-                                        {room.type} - Room {room.roomNumber} (${room.pricePerNight}/night)
+                                        {room.type} - Room {room.roomNumber} (Rs. {room.pricePerNight.toLocaleString()}/night)
                                     </MenuItem>
                                 ))}
                             </TextField>
@@ -215,7 +246,7 @@ const AddReservation = () => {
                             disabled={loading}
                             sx={{ py: 2 }}
                         >
-                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Confirm Reservation'}
+                            {loading ? <CircularProgress size={24} color="inherit" /> : (isEdit ? 'Save Changes' : 'Confirm Reservation')}
                         </Button>
                         <Button
                             variant="outlined"

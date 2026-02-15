@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBUtil {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/ocean_view_resort?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&allowMultiQueries=true";
+    private static final String URL = "jdbc:mysql://localhost:3306/ocean_view_resort?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&allowMultiQueries=true";
     private static final String USER = "root";
     private static final String PASSWORD = "12345678";
 
