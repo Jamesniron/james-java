@@ -1,4 +1,4 @@
-# Ocean View Resort - Hotel Reservation System
+# O
 
 A complete full-stack web application for Ocean View Resort (Galle) to manage reservations, billing, and rooms.
 
