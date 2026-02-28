@@ -23,9 +23,11 @@ com\oceanview\util\DBUtil.class
 com\oceanview\DebugMain.class
 com\oceanview\model\Room.class
 com\oceanview\model\User$Role.class
+com\oceanview\test\DBCheck.class
 com\oceanview\util\TestHash.class
 com\oceanview\model\AuditLog.class
 com\oceanview\servlet\ReservationServlet.class
+com\oceanview\servlet\TestDBServlet.class
 com\oceanview\dao\RoomDAO.class
 com\oceanview\util\PasswordUtil.class
 com\oceanview\model\Room$RoomType.class

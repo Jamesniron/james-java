@@ -30,7 +30,7 @@ const Login = ({ setUser }) => {
                     const userData = response.data.data;
                     localStorage.setItem('user', JSON.stringify(userData));
                     setUser(userData);
-                    if (userData.role === 'ADMIN') {
+                    if (userData.role?.toUpperCase() === 'ADMIN') {
                         navigate('/admin');
                     } else {
                         navigate('/dashboard');

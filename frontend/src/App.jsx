@@ -56,22 +56,24 @@ function App() {
         };
     }, []);
 
+    const isAdmin = user?.role?.toUpperCase() === 'ADMIN';
+
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <Router>
-                {/* Navbar is rendered inside AdminDashboard for admin, so we hide it here for ADMIN users */}
-                {user && user.role !== 'ADMIN' && <Navbar />}
+                {/* Navbar is only rendered for logged-in users */}
+                {user && <Navbar />}
                 <Routes>
                     <Route
                         path="/login"
-                        element={!user ? <Login setUser={setUser} /> : <Navigate to={user.role === 'ADMIN' ? "/admin" : "/dashboard"} />}
+                        element={!user ? <Login setUser={setUser} /> : <Navigate to={isAdmin ? "/admin" : "/dashboard"} />}
                     />
                     <Route
                         path="/"
                         element={
                             user ? (
-                                user.role === 'ADMIN' ? <Navigate to="/admin" /> : <Navigate to="/dashboard" />
+                                isAdmin ? <Navigate to="/admin" /> : <Navigate to="/dashboard" />
                             ) : (
                                 <Navigate to="/login" />
                             )
@@ -79,11 +81,11 @@ function App() {
                     />
                     <Route
                         path="/dashboard"
-                        element={user ? (user.role === 'ADMIN' ? <Navigate to="/admin" /> : <Dashboard />) : <Navigate to="/login" />}
+                        element={user ? <Dashboard /> : <Navigate to="/login" />}
                     />
                     <Route
                         path="/admin"
-                        element={user && user.role === 'ADMIN' ? <AdminDashboard /> : <Navigate to={user ? "/dashboard" : "/login"} />}
+                        element={user && isAdmin ? <AdminDashboard /> : <Navigate to={user ? "/dashboard" : "/login"} />}
                     />
                     <Route
                         path="/reservations/add"
@@ -99,7 +101,7 @@ function App() {
                     />
                     <Route
                         path="/billing"
-                        element={user ? <Dashboard /> : <Navigate to="/login" />}
+                        element={user ? <Billing /> : <Navigate to="/login" />}
                     />
                     <Route
                         path="/billing/:id"

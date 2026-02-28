@@ -95,7 +95,6 @@ const AdminDashboard = () => {
 
     return (
         <Box sx={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', pb: 4 }}>
-            <Navbar />
             <Container maxWidth="xl" sx={{ mt: 4 }}>
                 <Typography variant="h4" sx={{ color: 'white', mb: 4, fontWeight: 'bold' }}>
                     Admin Dashboard
@@ -219,7 +218,7 @@ const AdminDashboard = () => {
                                         </TableCell>
                                         <TableCell sx={{ color: 'gray' }}>{log.details}</TableCell>
                                         <TableCell sx={{ color: 'gray' }}>
-                                            {new Date(log.timestamp.year, log.timestamp.month - 1, log.timestamp.day, log.timestamp.hour, log.timestamp.minute).toLocaleString()}
+                                            {new Date(log.timestamp).toLocaleString()}
                                         </TableCell>
                                     </TableRow>
                                 ))}

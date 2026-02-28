@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 public class AuthFilter implements Filter {
 
     private final Gson gson = GsonUtil.getGson();
-    private static final List<String> PUBLIC_PATHS = Arrays.asList("/api/login", "/api/logout");
+    private static final List<String> PUBLIC_PATHS = Arrays.asList("/api/login", "/api/logout", "/api/test-db");
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

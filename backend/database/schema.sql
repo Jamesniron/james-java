@@ -1,4 +1,4 @@
--- Active: 1770811534415@@127.0.0.1@3306@mysql
+-- Active: 1770811534415@@127.0.0.1@3306@ocean_view_resort
 -- Database Schema for MySQL
 
 -- Users Table

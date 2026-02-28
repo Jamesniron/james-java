@@ -10,6 +10,7 @@ export default defineConfig({
                 target: 'http://127.0.0.1:8105',
                 changeOrigin: true,
                 secure: false,
+                rewrite: (path) => `/oceanview-resort${path}`,
             }
         }
     }
