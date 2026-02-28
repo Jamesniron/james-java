@@ -52,3 +52,10 @@ Initializing Database (MySQL)...
 Database schema executed successfully!
 [INFO] [beddedLocalContainer] Tomcat 10.x Embedded started on port [8105]
 [INFO] Press Ctrl-C to stop the container...
+Login attempt for user: admin
+Login attempt for user: staff
+Login attempt for user: staff
+Login attempt for user: admin
+Login attempt for user: admin
+Login attempt for user: admin
+Login attempt for user: staff
